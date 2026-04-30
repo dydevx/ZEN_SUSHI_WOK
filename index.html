@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        html { overflow-x: hidden; }
         body { 
             background: url('background.jpg') center/cover no-repeat fixed;
             background-size: cover;
-            color: #ffffff; 
+            color: #ffffff;
+            overflow-x: hidden;
+        }
         }
 
         /* HEADER CÔTÉ SUSHI STYLE */
@@ -62,9 +65,12 @@
 
         /* GRID MÓN ĂN (15 CARD) */
         .food-container {
+            width: 100%;
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 15px;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
         .category-title {
             font-size: 24px;
@@ -77,6 +83,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 25px;
+            width: 100%;
         }
 
         /* CARD MÓN ĂN */
@@ -148,6 +155,7 @@
         }
 
         @media (max-width: 600px) {
+            .food-container { padding: 0 10px; }
             .food-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .food-card { height: 240px; }
             .img-box { height: 130px; }
