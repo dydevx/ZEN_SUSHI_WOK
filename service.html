@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseaux Sociaux – ZEN SUSHI WOK</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#1a1a1a;
+    color:#fff;
+    font-family:'Montserrat', sans-serif;
+    overflow-x:hidden;
+}
+
+/* SECTION */
+.social-section{
+    background:#1c1c1c;
+    width:100%;
+}
+
+/* TOP */
+.social-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:28px 60px;
+}
+
+.social-title{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(22px,3vw,36px);
+    letter-spacing:2px;
+}
+
+.social-icons{
+    display:flex;
+    gap:10px;
+}
+
+.social-icons a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    border-radius:8px;
+    background:#333;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s;
+}
+
+.social-icons a:hover{
+    background:#fff;
+    color:#000;
+    transform:translateY(-3px);
+}
+
+/* MARQUEE */
+.marquee-wrapper{
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    height:320px;
+}
+
+/* fade */
+.marquee-wrapper::before,
+.marquee-wrapper::after{
+    content:'';
+    position:absolute;
+    top:0;
+    width:80px;
+    height:100%;
+    z-index:2;
+}
+
+.marquee-wrapper::before{
+    left:0;
+    background:linear-gradient(to right,#1c1c1c,transparent);
+}
+
+.marquee-wrapper::after{
+    right:0;
+    background:linear-gradient(to left,#1c1c1c,transparent);
+}
+
+.marquee-track{
+    display:flex;
+    width:max-content;
+    animation:marquee 40s linear infinite;
+    gap:6px;
+}
+
+.marquee-track:hover{
+    animation-play-state:paused;
+}
+
+@keyframes marquee{
+    0%{ transform:translateX(0);}
+    100%{ transform:translateX(-50%);}
+}
+
+.marquee-img{
+    width:300px;
+    height:320px;
+    object-fit:cover;
+    flex-shrink:0;
+    transition:0.4s;
+    filter:brightness(0.85);
+}
+
+.marquee-img:hover{
+    transform:scale(1.05);
+    filter:brightness(1);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .social-top{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+        padding:20px;
+    }
+
+    .marquee-img{
+        width:200px;
+        height:220px;
+    }
+
+    .marquee-wrapper{
+        height:220px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<section class="social-section">
+
+<div class="social-top">
+    <div class="social-title">
+        RETROUVER ZEN SUSHI WOK<br>
+        SUR LES RÉSEAUX SOCIAUX
+    </div>
+<div class="social-icons">
+    <a href="https://www.instagram.com/zensushiwok/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/zensushiwok" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+    <a href="#"><i class="fab fa-tiktok"></i></a>
+</div>
+
+
+</div>
+
+<div class="marquee-wrapper">
+    <div class="marquee-track" id="marqueeTrack">
+
+
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi1.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi2.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi3.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi4.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi5.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi6.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi7.png">
+    <img class="marquee-img" src="/menu/1.PLATEAU/sushi8.png">
+
+    <img class="marquee-img" src="/menu/11. SASHIMI/sashimi1.png">
+    <img class="marquee-img" src="/menu/11. SASHIMI/sashimi2.png">
+    <img class="marquee-img" src="/menu/11. SASHIMI/sashimi3.png">
+    <img class="marquee-img" src="/menu/11. SASHIMI/sashimi4.png">
+    <img class="marquee-img" src="/menu/11. SASHIMI/sashimi5.png">
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+const track = document.getElementById('marqueeTrack');
+track.innerHTML += track.innerHTML; // loop mượt
+</script>
+
+</body>
+</html>
