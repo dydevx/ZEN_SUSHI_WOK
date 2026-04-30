@@ -387,7 +387,6 @@
     <div class="top-header">
         <div class="menu-btn" onclick="toggleMenu()">☰</div>
         <a href="index.html" class="logo" onclick="goHome(); return false;">ZEN SUSHI <span>WOK</span></a>
-        <div>🛒</div>
     </div>
     <div class="nav-container">
         <nav class="category-nav" id="mainNav"></nav>
@@ -766,8 +765,12 @@ function renderFoods(category) {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
 
-            // Cuộn menu vào giữa (trên mobile cực tiện)
-            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Cuộn menu ngang để mục được chọn hiện ra giữa thanh nav
+            const navEl = document.getElementById('mainNav');
+            const itemLeft = item.offsetLeft;
+            const itemWidth = item.offsetWidth;
+            const navWidth = navEl.offsetWidth;
+            navEl.scrollTo({ left: itemLeft - navWidth / 2 + itemWidth / 2, behavior: 'smooth' });
 
             // Ẩn home section
             homeSection.classList.add('hidden');
