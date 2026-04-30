@@ -130,6 +130,17 @@
         }
         .food-card:hover img { transform: scale(1.05); }
         
+        /* LOADING ANIMATION */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .img-box.loading {
+            animation: shimmer 2s infinite;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+        }
+        
         /* TAG NOUVEAU */
         .badge {
             position: absolute;
@@ -736,8 +747,8 @@ function renderFoods(category) {
             
             // Sửa lại link placehold.co (thêm kích thước 400x300)
             card.innerHTML = `
-                <div class="img-box">
-                    <img src="${encodedSrc}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                <div class="img-box loading">
+                    <img loading="lazy" src="${encodedSrc}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
                     <div class="badge">NOUVEAU</div>
                 </div>
                 <div class="food-info">
@@ -749,6 +760,12 @@ function renderFoods(category) {
                 </div>
             `;
             display.appendChild(card);
+            
+            // Remove loading animation khi ảnh load xong
+            const imgElement = card.querySelector('img');
+            const imgBox = card.querySelector('.img-box');
+            imgElement.onload = () => { imgBox.classList.remove('loading'); };
+            imgElement.onerror = () => { imgBox.classList.remove('loading'); };
         });
     }
 }
