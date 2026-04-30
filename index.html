@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEN SUSHI WOK</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { 
+            background: url('background.jpg') center/cover no-repeat fixed;
+            background-size: cover;
+            color: #000; 
+        }
+
+        /* HEADER CÔTÉ SUSHI STYLE */
+        header {
+            /* background: #ffffff; */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        .logo { font-weight: 800; font-size: 22px; letter-spacing: 1px; text-decoration: none; color: #000; }
+        .logo span { color: #000000; }
+
+        /* MENU TRƯỢT NGANG */
+        .nav-container { max-width: 1200px; margin: 0 auto; overflow: hidden; }
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none; /* Firefox */
+            padding: 0 10px;
+        }
+        .category-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .nav-item {
+            padding: 15px 18px;
+            display: inline-block;
+            text-decoration: none;
+            color: #000;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-item.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        /* GRID MÓN ĂN (15 CARD) */
+        .food-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .category-title {
+            font-size: 24px;
+            margin: 20px 0;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        /* CARD MÓN ĂN */
+        .food-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            position: relative;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        .img-box {
+            width: 100%;
+            height: 250px;
+            background: #f8f8f8;
+            overflow: hidden;
+            border-radius: 0;
+            position: relative;
+        }
+        .food-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        .food-card:hover img { transform: scale(1.05); }
+        
+        /* TAG NOUVEAU */
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+        .food-info { 
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #fff;
+        }
+        .food-name { 
+            font-size: 13px; 
+            font-weight: 700; 
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        .food-desc {
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        .food-price { 
+            color: #fff; 
+            font-weight: 700; 
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .food-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .img-box { height: 130px; }
+        }
+
+        /* HAMBURGER MENU */
+        .menu-btn {
+            font-size: 32px;
+            cursor: pointer;
+            display: block;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background: #f5f5f5;
+            color: #333;
+            padding: 30px;
+            transition: 0.4s;
+            z-index: 2000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            margin: 15px 0;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .sidebar-social {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .social-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #333;
+            font-size: 18px;
+            transition: 0.3s;
+            margin: 0;
+        }
+
+        .social-icons a:hover {
+            background: #333;
+            color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 1500;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* CLOSE BTN */
+        .close {
+            font-size: 22px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        /* HOME SECTION */
+        .home-section {
+            position: relative;
+            height: 90vh;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #000000;
+        }
+        .home-section.hidden {
+            display: none;
+        }
+        .home-section::before {
+            display: none;
+        }
+        .home-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            padding: 20px;
+        }
+        .home-content h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .home-content h1 span {
+            color: #000000;
+        }
+        .home-content p {
+            margin: 15px 0 25px;
+            font-size: 18px;
+            color: #000000;
+        }
+        .home-content button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #000000;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .home-content button:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 600px) {
+            .home-section {
+                height: 70vh;
+            }
+            .home-content h1 {
+                font-size: 32px;
+            }
+            .home-content p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="close" onclick="toggleMenu()">✖</div>
+    <h2>ZEN SUSHI WOK</h2>
+    <!-- <a href="#">Carte</a>
+    <a href="#">Restaurants</a>
+    <a href="#">Compte</a>
+    <a href="#">Panier</a>
+    <hr>
+    <a href="#">Mentions légales</a>
+    <a href="#">Contact</a> -->
+    
+    <div class="sidebar-social">
+    <div class="social-title">Nous suivre</div>
+    <div class="social-icons">
+        <a href="https://www.facebook.com/zensushiwok" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/zensushiwok/" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="mailto:zensushiwok06@gmail.com" title="Email">
+            <i class="fas fa-envelope"></i>
+        </a>
+    </div>
+</div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<header>
+    <div class="top-header">
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <a href="menu.html" class="logo" onclick="goHome(); return false;">ZEN SUSHI <span>WOK</span></a>
+        <div>🛒</div>
+    </div>
+    <div class="nav-container">
+        <nav class="category-nav" id="mainNav"></nav>
+    </div>
+</header>
+
+<!-- HOME SECTION -->
+<div class="home-section" id="homeSection">
+    <div class="home-content">
+        <h1>ZEN SUSHI WOK </h1>
+        <p>Découvrez notre sélection de sushi et plats asiatiques</p>
+        <button onclick="scrollToMenu()">Voir le Menu</button>
+    </div>
+</div>
+
+<div class="food-container">
+    <h2 class="category-title" id="currentCategoryName"></h2>
+    <div class="food-grid" id="foodDisplay">
+        <!-- 15 Card sẽ hiện ở đây -->
+    </div>
+</div>
+
+<script>
+    const categories = [
+        "PLATEAU", "SIGNATURES", "CALIFORNIA", "MAKI", "SPRING ROLL", 
+        "FLOCON", "SAUMON ROLL", "SUSHI", "GUNKAN", "TEMAKI", 
+        "SASHIMI", "CHIRASHI", "POKE BOWL", "CRUSTY BOWL", 
+        "ZEN ENERGY BOWL", "ZEN WOK", "ACCOMPAGNEMENT", 
+        "DESSERT", "BOISSON"
+    ];
+
+    const nav = document.getElementById('mainNav');
+    const display = document.getElementById('foodDisplay');
+    const title = document.getElementById('currentCategoryName');
+    const homeSection = document.getElementById('homeSection');
+
+    // Hàm Render 15 món ăn
+ // 1. Khai báo danh sách file chính xác cho từng mục
+// 1. Khai báo danh sách file chính xác cho từng mục
+const menuData = {
+
+    "PLATEAU": [
+        { name: "Zen Vegan", price: "17.00", fileName: "sushi1.png" },
+        { name: "Zen Californication", price: "20.00", fileName: "sushi2.png" },
+        { name: "Zen Salmon", price: "22.00", fileName: "sushi3.png" },
+        { name: "Zen Tony Alone", price: "26.00", fileName: "sushi4.png" },
+        { name: "Zen Nicotine", price: "28.00", fileName: "sushi5.png" },
+        { name: "duo sushi 10 pieces", price: "22.00", fileName: "sushi6.png" },
+        { name: "sushi saumon 10 pieces", price: "20.00", fileName: "sushi7.png" },
+        { name: " sushi thon 10 pieces", price: "24.00", fileName: "sushi8.png" },
+        { name: "Zen Love", price: "46.00", fileName: "sushi9.png" },
+        { name: "Zen degustation", price: "52.00", fileName: "sushi10.png" },
+        { name: "Zen Family", price: "70.00", fileName: "sushi11.png" },
+        { name: "Zen Kids Salmon", price: "10.00", fileName: "sushi12.png" },
+        { name: "Zen Kids yakitori ", price: "10.00", fileName: "sushi13.png" }
+    ],
+    "SIGNATURES": [
+        { name: "Crispy Roll Saumon Avocat Cheese ", price: "10.00", fileName: "sig1.png" },
+        { name: "Crispy roll Thon Avocat Cheese", price: "12.00", fileName: "sig2.png" },
+        { name: "Crispy Roll Poulet Pané Avocat Cheese", price: "10.00", fileName: "sig3.png" },
+        { name: "Crispy roll crevettes tempura avocat cheese ", price: "13.00", fileName: "sig4.png" },
+        { name: "Hot saumon roll avocat concombre cheese", price: "12.00", fileName: "sig5.png" },
+        { name: "Hot thon roll avocat concombre cheese ", price: "13.00", fileName: "sig6.png" },
+        { name: "Tartare roll saumon avocat concombre cheese ", price: "12.00", fileName: "sig7.png" },
+        { name: "Zen roll saumon avocat concombre cheese", price: "12.00", fileName: "sig8.png" },
+        { name: "Dragon roll crevettes tempura cheese avocat", price: "13.00", fileName: "sig9.png" },
+        { name: "Crispy onion thon cuit avocat concombre spicy sauce ", price: "10.00", fileName: "sig10.png" },
+        { name: "Crispy onion froie gras mangue chutney figue", price: "12.00", fileName: "sig11.png" },
+        { name: "Chicken roll poulet pané avocat cheddar flambé oignon frit", price: "10.00", fileName: "sig12.png" },
+        { name: "Dip salmon roll avocat cheese  ", price: "12.00", fileName: "sig13.png" },
+        { name: "Dip Tuna roll avocat cheese", price: "13.00", fileName: "sig14.png" },
+        { name: "Dip shrimp roll avocat cheese", price: "10.00", fileName: "sig15.png" },
+        { name: "Dip chicken roll avocat cheese", price: "10.00", fileName: "sig16.png" }
+    ],
+    "CALIFORNIA": [
+        { name: "California saumon avocat ", price: "10.00", fileName: "cal1.png" },
+        { name: "California thon avocat", price: "8.00", fileName: "cal2.png" },
+        { name: "California crevette avocat", price: "7.5", fileName: "cal3.png" },
+        { name: "California poulet pané avocat mayonaise spicy", price: "7.00", fileName: "cal4.png" },
+        { name: "California crevettes tempura avocat mayonaise spicy", price: "8.5", fileName: "cal5.png" },
+        { name: "California thon cuit avocat mayo-spicy", price: "7.00", fileName: "cal6.png" },
+        { name: "California saumon avocat cheese", price: "7.5", fileName: "cal7.png" },
+        { name: "California thon avocat cheese", price: "8.5", fileName: "cal8.png" },
+        { name: "California crevette avocat cheese", price: "8.00", fileName: "cal9.png" },
+        { name: "California thon cuit avocat cheese", price: "7.5", fileName: "cal10.png" },
+        { name: "California saumon cheese mangue", price: "7.5", fileName: "cal11.png" },
+        { name: "California thon cheese mangue", price: "8.5", fileName: "cal12.png" },
+        { name: "California crevette mangue cheese", price: "8.00", fileName: "cal13.png" },
+        { name: "California crevettes tempura cheese", price: "8.5", fileName: "cal14.png" },
+        { name: "California poulet pané cheese", price: "7.00", fileName: "cal15.png" },
+        { name: "California saumon concombre avocat", price: "7.5", fileName: "cal16.png" },
+        { name: "California thon concombre avocat", price: "8.5", fileName: "cal17.png" },
+        { name: "California crevette concombre avocat", price: "8.00", fileName: "cal18.png" },
+        { name: "California avocat concombre carotte", price: "6.5", fileName: "cal19.png" },
+        { name: "California foie gras chutney de figues", price: "9.00", fileName: "cal20.png" }
+    ],
+    "MAKI": [
+        { name: "Maki Saumon ", price: "6.00", fileName: "maki1.png" },
+        { name: "Maki thon", price: "6.5", fileName: "maki2.png" },
+        { name: "Maki crevettes", price: "6.5", fileName: "maki3.png" },
+        { name: "Maki avocat", price: "5.5", fileName: "maki4.png" },
+        { name: "Maki Concombre", price: "5.5", fileName: "maki5.png" },
+        { name: "Maki saumon avocat", price: "6.5", fileName: "maki6.png" },
+        { name: "Maki thon avocat", price: "7.00", fileName: "maki7.png" },
+        { name: "Maki crevettes avocat", price: "7.00", fileName: "maki8.png" },
+        { name: "Maki saumon cheese", price: "6.5", fileName: "maki9.png" },
+        { name: "Maki thon cheese", price: "7.00", fileName: "maki10.png" },
+        { name: "Maki crevettes cheese", price: "7.00", fileName: "maki11.png" },
+        { name: "Maki avocat cheese", price: "6.00", fileName: "maki12.png" },
+        { name: "Maki concombre cheese", price: "6.00", fileName: "maki13.png" },
+        { name: "Maki cheese", price: "5.5", fileName: "maki14.png" }
+    ],
+    "SPRING ROLL": [
+        { name: "Spring roll saumon avocat", price: "7.00", fileName: "spring1.png" },
+        { name: "Spring roll thon avocat", price: "7.5", fileName: "spring2.png" },
+        { name: "Spring roll crevettes avocat", price: "7.5", fileName: "spring3.png" },
+        { name: "Spring roll poulet pané avocat", price: "7.00", fileName: "spring4.png" },
+        { name: "Spring roll crevettes tempura avocat", price: "8.5", fileName: "spring5.png" },
+        { name: "Spring roll poulet yakitori avocat cacahuete", price: "7.5", fileName: "spring6.png" },
+        { name: "Spring roll saumon avocat concombre", price: "7.5", fileName: "spring7.png" },
+        { name: "Spring roll thon avocat concombre", price: "8.00", fileName: "spring8.png" },
+        { name: "Spring roll crevettes avocat concombre", price: "8.00", fileName: "spring9.png" },
+        { name: "Spring roll saumon avocat mangue", price: "7.5", fileName: "spring10.png" },
+        { name: "Spring roll thon avocat mangue", price: "8.00", fileName: "spring11.png" },
+        { name: "Spring roll crevettes avocat mangue", price: "8.00", fileName: "spring12.png" },
+        { name: "Spring roll avocat concombre carotte", price: "6.5", fileName: "spring13.png" }
+    ],
+    "FLOCON": [
+        { name: "Flocon saumon", price: "6.00", fileName: "flocon1.png" },
+        { name: "Flocon thon", price: "7.00", fileName: "flocon2.png" },
+        { name: "Flocon saumon avocat", price: "6.5", fileName: "flocon3.png" },
+        { name: "Flocon thon avocat", price: "7.5", fileName: "flocon4.png" },
+        { name: "Flocon crevette avocat", price: "7.5", fileName: "flocon5.png" },
+        { name: "Flocon poulet pané avocat", price: "6.5", fileName: "flocon6.png" },
+        { name: "Flocon crevette tempura avocat", price: "7.5", fileName: "flocon7.png" },
+        { name: "Flocon thon cuit avocat", price: "6.00", fileName: "flocon8.png" },
+        { name: "Flocon saumon cheese", price: "6.5", fileName: "flocon9.png" },
+        { name: "Flocon thon cheese", price: "7.5", fileName: "flocon10.png" },
+        { name: "Flocon crevette cheese", price: "7.5", fileName: "flocon11.png" },
+        { name: "Flocon poulet pané cheese", price: "6.5", fileName: "flocon12.png" },
+        { name: "Flocon crevette tempura cheese", price: "7.5", fileName: "flocon13.png" }
+    ],
+    "SAUMON ROLL": [
+        { name: "Saumon roll cheese", price: "8.00", fileName: "saumon1.png" },
+        { name: "Saumon roll cheese avocat", price: "8.5", fileName: "saumon2.png" },
+        { name: "Saumon roll cheese concombre", price: "8.5", fileName: "saumon3.png" },
+        { name: "Saumon roll snaké", price: "8.5", fileName: "saumon4.png" }
+    ],
+    "SUSHI": [
+        { name: "Sushi saumon", price: "4.5", fileName: "sushi1.png" },
+        { name: "Sushi thon", price: "5.5", fileName: "sushi2.png" },
+        { name: "Sushi  crevettes", price: "5.00", fileName: "sushi3.png" },
+        { name: "Sushi saumon cheese", price: "5.00", fileName: "sushi4.png" },
+        { name: "Sushi thon cheese", price: "6.00", fileName: "sushi5.png" },
+        { name: "Sushi crevettes cheese", price: "5.5", fileName: "sushi6.png" },
+        { name: "Sushi saumon avocat", price: "5.00", fileName: "sushi7.png" },
+        { name: "Sushi thon avocat", price: "6.00", fileName: "sushi8.png" },
+        { name: "sushi crevettes avocat", price: "5.5", fileName: "sushi9.png" },
+        { name: "sushi saumon snaké", price: "5.00", fileName: "sushi10.png" },
+        { name: "sushi thon snaké", price: "6.00", fileName: "sushi11.png" }
+    ],
+    "GUNKAN": [
+        { name: "Gunkan saumon", price: "5.5", fileName: "gunkan1.png" },
+        { name: "Gunkan thon", price: "6.00", fileName: "gunkan2.png" },
+        { name: "Gunkan crevette", price: "6.00", fileName: "gunkan3.png" },
+        { name: "Gunkan avocat", price: "5.00", fileName: "gunkan4.png" },
+        { name: "Gunkan saumon mayo spicy", price: "6.00", fileName: "gunkan5.png" },
+        { name: "Gunkan thon mayo spicy", price: "6.5", fileName: "gunkan6.png" },
+        { name: "Gunkan saumon mariné", price: "6.00", fileName: "gunkan7.png" },
+        { name: "Gunkan thon mariné", price: "6.5", fileName: "gunkan8.png" }
+    ],  
+    "TEMAKI": [
+            { name: "temaki saumon avocat", price: "8.00", fileName: "temaki1.png" },
+            { name: "temaki thon avocat", price: "9.00", fileName: "temaki2.png" },
+            { name: "temaki crevette avocat", price: "9.00", fileName: "temaki3.png" },
+            { name: "temaki poulet pané avocat", price: "8.00", fileName: "temaki4.png" },
+            { name: "5. temaki crevette tempura avocat ", price: "9.00", fileName: "temaki5.png" }         
+        ],  
+    "SASHIMI": [
+                { name: "Sashimi saumon", price: "12.00", fileName: "sashimi1.png" },
+                { name: "Sashimi thon", price: "13.00", fileName: "sashimi2.png" },
+                { name: "Duo sashimi", price: "12.5", fileName: "sashimi3.png" },
+                { name: "Tataki saumon", price: "14.00", fileName: "sashimi4.png" },
+                { name: "Tataki thon", price: "15.00", fileName: "sashimi5.png" }
+            ],
+    "CHIRASHI": [
+                { name: "Chirashi saumon", price: "17.5", fileName: "chirashi1.png" },
+                { name: "Chirashi thon", price: "19.5", fileName: "chirashi2.png" },
+                { name: "Chirashi duo", price: "18.5", fileName: "chirashi3.png" },
+                { name: "Chirashi saumon avocat", price: "19.00", fileName: "chirashi4.png" },
+                { name: "Chirashi thon avocat", price: "21.00", fileName: "chirashi5.png"},
+                { name: "Chirashi duo avocat", price: "20.00", fileName: "chirashi6.png" },
+                { name: "Tartare de saumon avocat", price: "16.00", fileName: "chirashi7.png" },
+                { name: "Tartare de thon avocat", price: "17.00", fileName: "chirashi8.png" },
+                { name: "Tartare de saumon mariné avocat", price: "17.00", fileName: "chirashi9.png" },
+                { name: "Tartare de thon mariné avocat", price: "18.00", fileName: "chirashi10.png" }
+            ],
+    "POKE BOWL": [
+                { name: "Poke bowl saumons", price: "16.00", fileName: "poke1.png" },
+                { name: "Poke bowl thons", price: "17.00", fileName: "poke2.png" },
+                { name: "Poke bowl saumons mariné", price: "17.00", fileName: "poke3.png" },
+                { name: "Poke bowl thons mariné", price: "18.00", fileName: "poke4.png" },
+                { name: "Poke bowl wakamé vegan", price: "14.00", fileName: "poke5.png" },
+                { name: "Poke bowl tofu frit vegan", price: "15.00", fileName: "poke6.png" },
+                { name: "Poke bowl tempura crevettes", price: "18.5", fileName: "poke7.png" },
+                { name: "Poke bowl poulet pané", price: "15.00", fileName: "poke8.png" },
+                { name: "Poke bowl poulet yakitori", price: "15.00", fileName: "poke9.png" },
+                { name: "Poke bowl boulettes de poulet citronnelle", price: "15.00", fileName: "poke10.png" },
+                { name: "Poke bowl saumon pané", price: "17.00", fileName: "poke11.png" },
+                { name: "Poke bowl thon pané", price: "18.5", fileName: "poke12.png" }
+            ],  
+    "CRUSTY BOWL": [
+                    { name: "Crusty bowl poulé pané ", price: "12.5", fileName: "crusty bowl1.png" },
+                    { name: "Crusty bowl crevette tempura ", price: "14.00", fileName: "crusty bowl2.png" },
+                    { name: "Crusty bowl poulet yakitory", price: "12.5", fileName: "crusty bowl3.png" },
+                    { name: "Crusty bowl boulette poulet yakitory", price: "12.5", fileName: "crusty bowl4.png" }
+                ],  
+    "ZEN ENERGY BOWL": [
+                    { name: "Bobun boeuf", price: "12.00", fileName: "bun1.png" },
+                    { name: "Gabun poulet", price: "11.00", fileName: "bun2.png" },
+                    { name: "Bun heo quay porc", price: "12.00", fileName: "bun3.png" },
+                    { name: "Bun chay vegan", price: "11.00", fileName: "bun4.png" },
+                    { name: "Pho bo boeuf", price: "14.00", fileName: "bun5.png" },
+                    { name: "Pad thai poulet crevettes", price: "13.00", fileName: "bun6.png" },
+                    { name: "Pad thai poulet", price: "12.00", fileName: "bun7.png" },
+                    { name: "Pad thai boeuf", price: "13.00", fileName: "bun8.png" },
+                    { name: "Pad thai crevettes", price: "13.00", fileName: "bun9.png" }
+                ],  
+    "ZEN WOK": [
+                    { name: "Nouilles sauté aux légumes poulet", price: "10.00", fileName: "nouilles1.png" },
+                    { name: "Nouilles sauté aux légumes boeuf", price: "11.00", fileName: "nouilles2.png" },
+                    { name: "Nouilles sauté aux légumes crevettes", price: "11.00", fileName: "nouilles3.png" },
+                    { name: "Nouilles sauté aux légumes seiches", price: "11.00", fileName: "nouilles4.png" },
+                    { name: "Nouilles sauté aux légumes crevettes seiche", price: "12.00", fileName: "nouilles5.png" },
+                    { name: "Nouilles sauté aux légumes canard a l_ananas", price: "12.00", fileName: "nouilles6.png" },
+                    { name: "Nouilles sauté aux légumes tofu", price: "10.00", fileName: "nouilles7.png" },
+                    { name: "Udon sauté aux legumes poulet", price: "10.00", fileName: "nouilles8.png" },
+                    { name: "Udon sauté aux legumes boeuf", price: "11.00", fileName: "nouilles9.png" },
+                    { name: "Udon sauté aux legumes crevettes", price: "11.00", fileName: "nouilles10.png" },
+                    { name: "Udon sauté aux legumes seiches", price: "11.00", fileName: "nouilles11.png" },
+                    { name: "Udon sauté aux legumes crevettes seiches", price: "12.00", fileName: "nouilles12.png" },
+                    { name: "Udon sauté aux legumes canard a l_ananas", price: "12.00", fileName: "nouilles13.png" },
+                    { name: "Udon sauté aux legumes tofu", price: "10.00", fileName: "nouilles14.png" }
+                ],  
+    "ACCOMPAGNEMENT": [
+    { name: "Nems au porc", price: "3.5", fileName: "entre1.png" },
+    { name: "Nems au poulet", price: "3.5", fileName: "entre2.png" },
+    { name: "Nems au crevette", price: "4.00", fileName: "entre3.png" },
+    { name: "Nems veggie", price: "3.5", fileName: "entre4.png" },
+    { name: "Assortiment de nems", price: "12.5", fileName: "entre5.png" },
+    { name: "Crevette tempura" , price: "5.00", fileName: "entre6.png" },
+    { name: "Gyoza 4p(poulet ou veggie  6.5€ ou boeuf 7.5€)", price: "6.5-7.5", fileName: "entre7.png" },
+    { name: "Assortiment gyoza (6p)", price: "8.00", fileName: "entre8.png" },
+    { name: "Brochettes poulet yakitori", price: "5.5", fileName: "entre9.png" },
+    { name: "Brochettes boulettes de poulet", price: "5.5", fileName: "entre10.png" },
+    { name: "Brochettes boeuf au fromage", price: "6.00", fileName: "entre11.png" },  
+    { name: "Assortiment brochettes", price: "17.00", fileName: "entre12.png" },
+    { name: "Soupe miso", price: "4.00", fileName: "entre13.png" },
+    { name: "Edamame", price: "4.5", fileName: "entre14.png" },
+    { name: "Salade wakamé", price: "5.00", fileName: "entre15.png" },
+    { name: "Salade seiche", price: "7.5", fileName: "entre16.png" },
+    { name: "Salade de choux", price: "3.5", fileName: "entre17.png" },
+    { name: "Salade de choux saumon", price: "5.5", fileName: "entre18.png" },
+    { name: "Riz nature", price: "3.00", fileName: "entre19.png" },
+    { name: "Riz vinaigrée", price: "4.00", fileName: "entre20.png" }
+    ],  
+    "DESSERT": [
+                    { name: "Delice banane", price: "4.00", fileName: "dessert1.png" },
+                    { name: "Riz à la mangue", price: "4.00", fileName: "dessert2.png" },
+                    { name: "Cheese cake", price: "6.5", fileName: "dessert3.png" },
+                    { name: "Citron givré", price: "5.5", fileName: "dessert4.png" },
+                    { name: "Coco givré", price: "5.5", fileName: "dessert5.png" },
+                    { name: "Nougat mou", price: "3.5", fileName: "dessert6.png" },
+                    { name: "Nougat dur", price: "3.5", fileName: "dessert7.png" },
+                    { name: "Gingembre conflit", price: "4.5", fileName: "dessert8.png" },
+                    { name: "Assortissement conflit", price: "5.5", fileName: "dessert9.png" },
+                    { name: "Ananas frais", price: "4.5", fileName: "dessert10.png" },
+                    { name: "Lychee au sirop", price: "3.5", fileName: "dessert11.png" },
+                    { name: "Perle coco", price: "4.5", fileName: "dessert12.png" },
+                    { name: "Mochi cream chocolat", price: "5.5", fileName: "dessert13.png" },
+                    { name: "Mochi cream coco chocolat", price: "5.5", fileName: "dessert14.png" },
+                    { name: "Mochi cream cheese cake", price: "5.5", fileName: "dessert15.png" },
+                    { name: "Mochi glacé thé vert matcha", price: "5.5", fileName: "dessert16.png" },
+                    { name: "Mochi glacé citron- yuzu", price: "5.5", fileName: "dessert17.png" },
+                    { name: "Mochi glacé coco chocolat", price: "5.5", fileName: "dessert18.png" }
+                ],  
+    "BOISSON": [
+                    { name: "Càfé au lait glacé", price: "4.5", fileName: "boisson1.png" },
+                    { name: "Thé glacé a l_ananas", price: "4.5", fileName: "boisson2.png" },
+                    { name: "Thé glacé aux lychees", price: "4.5", fileName: "boisson3.png" },
+                    { name: "Thé glacé pêche", price: "4.5", fileName: "boisson4.png" },
+                    { name: " Evian", price: "3.00", fileName: "boisson5.png" },
+                    { name: "S.pelleorino", price: "3.00", fileName: "boisson6.png" },
+                    { name: "Coca original", price: "3.00", fileName: "boisson7.png" },
+                    { name: "Coca zero", price: "3.00", fileName: "boisson8.png" },
+                    { name: "Sprite", price: "3.00", fileName: "boisson9.png" },
+                    { name: "Oasis", price: "3.00", fileName: "boisson10.png" },
+                    { name: "Lipton ice tea peche", price: "3.00", fileName: "boisson11.png" },
+                    { name: "Orangina", price: "3.00", fileName: "boisson12.png" },
+                    { name: "Nectar D_orange", price: "3.00", fileName: "boisson13.png" },
+                    { name: "Fuze tea", price: "3.00", fileName: "boisson14.png" },
+                    { name: "Mogu mogu", price: "3.5", fileName: "boisson15.png" },
+                    { name: "Caprisun", price: "2.00", fileName: "boisson16.png" },
+                    { name: "Bière ASAHI", price: "4.5", fileName: "boisson17.png" },
+                    { name: "Bière TSINGTAO", price: "4.5", fileName: "boisson18.png" }
+                ]   
+    // Các mục khác là  
+};
+
+// 2. Hàm hiển thị món ăn
+function renderFoods(category) {
+    const display = document.getElementById('foodDisplay');
+    display.innerHTML = ''; 
+    title.innerText = category;
+    // Logic tên folder
+    let folderName = "";
+    if(category === "PLATEAU") folderName = "1.PLATEAU";
+    if(category === "SIGNATURES") folderName = "2. SIGNATURES";
+    if(category === "CALIFORNIA") folderName = "3. CALIFORNIA";
+    if(category === "MAKI") folderName = "4. MAKI";
+    if(category === "SPRING ROLL") folderName = "5. SPRING ROLL";
+    if(category === "FLOCON") folderName = "6. FLOCON";
+    if(category === "SAUMON ROLL") folderName = "7. SAUMON ROLL";
+    if(category === "SUSHI") folderName = "8. SUSHI";
+    if(category === "GUNKAN") folderName = "9. GUNKAN";
+    if(category === "TEMAKI") folderName = "10. TEMAKI";
+    if(category === "SASHIMI") folderName = "11. SASHIMI";
+    if(category === "CHIRASHI") folderName = "12. CHIRASHI";
+    if(category === "POKE BOWL") folderName = "13. POKE BOWL";
+    if(category === "CRUSTY BOWL") folderName = "14. CRUSTY BOWL";
+    if(category === "ZEN ENERGY BOWL") folderName = "15. ZEN ENERGY BOWL";
+    if(category === "ZEN WOK") folderName = "16. ZEN WOK";
+    if(category === "ACCOMPAGNEMENT") folderName = "17. ENTRE-ACCOMPAGNMENT";
+    if(category === "DESSERT") folderName = "18. DESSERT";
+    if(category === "BOISSON") folderName = "19. BOISSON";
+
+    const items = menuData[category];
+
+    if (items) {
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'food-card';
+            
+            // Dùng encodeURI để trình duyệt hiểu được khoảng trắng và ký tự đặc biệt (như €)
+            const rawSrc = `menu/${folderName}/${item.fileName}`;
+            const encodedSrc = encodeURI(rawSrc);
+            
+            // Sửa lại link placehold.co (thêm kích thước 400x300)
+            card.innerHTML = `
+                <div class="img-box">
+                    <img src="${encodedSrc}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                    <div class="badge">NOUVEAU</div>
+                </div>
+                <div class="food-info">
+                    <div>
+                        <div class="food-name">${item.name}</div>
+                        <div class="food-desc">${item.pieces || ''}</div>
+                    </div>
+                    <div class="food-price">${item.price} €</div>
+                </div>
+            `;
+            display.appendChild(card);
+        });
+    }
+}
+
+
+    // Khởi tạo Menu 19 mục
+    categories.forEach((cat, index) => {
+        const item = document.createElement('a');
+        item.className = 'nav-item' + (index === 0 ? ' active' : '');
+        item.innerText = cat;
+        
+        item.onclick = () => {
+            // Đổi màu menu
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            // Cuộn menu vào giữa (trên mobile cực tiện)
+            item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+            // Ẩn home section
+            homeSection.classList.add('hidden');
+
+            // Load 15 món mới
+            renderFoods(cat);
+        };
+
+        nav.appendChild(item);
+    });
+
+    // Mặc định hiện Home section khi mở trang
+    // renderFoods(categories[0]);
+
+    // SCROLL TO MENU
+    function scrollToMenu() {
+        document.querySelector('.food-container').scrollIntoView({ behavior: 'smooth' });
+        renderFoods(categories[0]);
+        homeSection.classList.add('hidden');
+    }
+
+    // SHOW HOME
+    function showHome() {
+        homeSection.classList.remove('hidden');
+        display.innerHTML = '';
+        title.innerText = '';
+    }
+
+    // SIDEBAR TOGGLE
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+
+</script>
+
+</body>
+</html>
