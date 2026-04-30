@@ -11,7 +11,7 @@
         body { 
             background: url('background.jpg') center/cover no-repeat fixed;
             background-size: cover;
-            color: #000; 
+            color: #ffffff; 
         }
 
         /* HEADER CÔTÉ SUSHI STYLE */
@@ -29,8 +29,8 @@
             padding: 15px;
             border-bottom: 1px solid #f2f2f2;
         }
-        .logo { font-weight: 800; font-size: 22px; letter-spacing: 1px; text-decoration: none; color: #000; }
-        .logo span { color: #000000; }
+        .logo { font-weight: 800; font-size: 22px; letter-spacing: 1px; text-decoration: none; color: #ffffff; }
+        .logo span { color: #ffffff; }
 
         /* MENU TRƯỢT NGANG */
         .nav-container { max-width: 1200px; margin: 0 auto; overflow: hidden; }
@@ -47,7 +47,7 @@
             padding: 15px 18px;
             display: inline-block;
             text-decoration: none;
-            color: #000;
+            color: #ffffff;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
@@ -56,8 +56,8 @@
             transition: 0.2s;
         }
         .nav-item.active {
-            color: #000;
-            border-bottom: 2px solid #000;
+            color: #ffffff;
+            border-bottom: 2px solid #ffffff;
         }
 
         /* GRID MÓN ĂN (15 CARD) */
@@ -71,6 +71,7 @@
             margin: 20px 0;
             text-transform: uppercase;
             font-weight: 700;
+            color: #ffffff;
         }
         .food-grid {
             display: grid;
@@ -147,8 +148,14 @@
         }
 
         @media (max-width: 600px) {
-            .food-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .food-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .food-card { height: 240px; }
             .img-box { height: 130px; }
+            .food-info { padding: 10px; }
+            .food-name { font-size: 11px; margin-bottom: 4px; }
+            .food-desc { font-size: 10px; margin-bottom: 6px; }
+            .food-price { font-size: 14px; }
+            .badge { padding: 6px 12px; font-size: 9px; }
         }
 
         /* HAMBURGER MENU */
@@ -166,7 +173,7 @@
             width: 300px;
             height: 100%;
             background: #f5f5f5;
-            color: #333;
+            color: #000000;
             padding: 30px;
             transition: 0.4s;
             z-index: 2000;
@@ -178,13 +185,14 @@
 
         .sidebar h2 {
             margin-bottom: 20px;
+            color: #000000;
         }
 
         .sidebar a {
             display: block;
             margin: 15px 0;
             text-decoration: none;
-            color: #333;
+            color: #000000;
             font-weight: 500;
         }
 
@@ -198,7 +206,7 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 15px;
-            color: #333;
+            color: #000000;
         }
 
         .social-icons {
@@ -214,7 +222,7 @@
             height: 40px;
             border-radius: 50%;
             background: #e0e0e0;
-            color: #333;
+            color: #ffffff;
             font-size: 18px;
             transition: 0.3s;
             margin: 0;
@@ -258,7 +266,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #000000;
+            color: #ffffff;
         }
         .home-section.hidden {
             display: none;
@@ -277,14 +285,18 @@
             font-weight: 800;
             letter-spacing: 2px;
             margin-bottom: 15px;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.6);
         }
         .home-content h1 span {
-            color: #000000;
+            color: #ffffff;
         }
         .home-content p {
             margin: 15px 0 25px;
             font-size: 18px;
-            color: #000000;
+            color: #ffffff;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
         }
         .home-content button {
             padding: 14px 30px;
@@ -349,7 +361,7 @@
 <header>
     <div class="top-header">
         <div class="menu-btn" onclick="toggleMenu()">☰</div>
-        <a href="menu.html" class="logo" onclick="goHome(); return false;">ZEN SUSHI <span>WOK</span></a>
+        <a href="index.html" class="logo" onclick="goHome(); return false;">ZEN SUSHI <span>WOK</span></a>
         <div>🛒</div>
     </div>
     <div class="nav-container">
