@@ -25,6 +25,7 @@
             width: 100%;
             box-sizing: border-box;
             overflow-x: hidden;
+            max-width: 100%;
         }
         .top-header {
             display: flex;
@@ -766,7 +767,7 @@ function renderFoods(category) {
             item.classList.add('active');
 
             // Cuộn menu vào giữa (trên mobile cực tiện)
-            item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             // Ẩn home section
             homeSection.classList.add('hidden');
