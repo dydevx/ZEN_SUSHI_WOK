@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combos</title>
+
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+     background: #000000;
+      color: #000000;
+    }
+
+    .menu {
+      padding: 60px 40px;
+    }
+
+    .menu-container {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      width: 220px;
+      background: #000000;
+      color: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      background: #000000;
+      color: #fff;
+      padding: 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #4CAF50;
+      padding: 4px 10px;
+      font-size: 11px;
+      margin-bottom: 8px;
+      border-radius: 3px;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .card p {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .price {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    button {
+      background: #4CAF50;
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #43a047;
+    }
+.home-section {
+  position: relative;
+  height: 180px; /* giảm chiều cao */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* đẩy nội dung sang trái */
+  padding-left: 60px; /* khoảng cách lề trái */
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* giảm độ tối cho nhẹ hơn */
+  top: 0;
+  left: 0;
+}
+
+.home-content {
+  position: relative;
+  color: #fff;
+  z-index: 1;
+  text-align: left;
+}
+
+.home-content h1 {
+  font-size: 26px; /* nhỏ lại */
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.home-content p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+@media(max-width: 768px) {
+  .home-section {
+    height: 140px;
+    padding-left: 20px;
+  }
+
+  .home-content h1 {
+    font-size: 20px;
+  }
+}
+    /* Responsive */
+    @media(max-width: 768px) {
+      .menu {
+        padding: 30px 15px;
+      }
+
+      .card {
+        width: 45%;
+      }
+    }
+
+    @media(max-width: 480px) {
+      .card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="home-section" id="homeSection">
+  <div class="overlay"></div>
+  <div class="home-content">
+    <h1>NOUVELLES OFFRES</h1>
+    <p>Découvrez nos dernières créations</p>
+  </div>
+</div>
+<section class="menu">
+  <div class="menu-container">
+
+    <div class="card">
+      <img src="menu/1.PLATEAU/sushi9.png" alt="">
+      <div class="card-body">
+        <span class="tag">NOUVEAU</span>
+        <h3>ZEN LOVE</h3>
+        <div class="bottom">
+          <span class="price">46,00€</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="menu/1.PLATEAU/sushi10.png" alt="">
+      <div class="card-body">
+        <span class="tag">NOUVEAU</span>
+        <h3>ZEN DEGUSTATION</h3>
+        <div class="bottom">
+          <span class="price">52.00€</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="menu/1.PLATEAU/sushi11.png" alt="">
+      <div class="card-body">
+        <span class="tag">NOUVEAU</span>
+        <h3>ZEN FAMILY</h3>
+        <div class="bottom">
+          <span class="price">70.00€</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="menu/1.PLATEAU/sushi12.png" alt="">
+      <div class="card-body">
+        <span class="tag">NOUVEAU</span>
+        <h3>ZEN KIDS SALMON</h3>
+        <div class="bottom">
+          <span class="price">10.00€</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="menu/1.PLATEAU/sushi13.png" alt="">
+      <div class="card-body">
+        <span class="tag">NOUVEAU</span>
+        <h3>ZEN KIDS YAKITORI</h3>
+        <div class="bottom">
+          <span class="price">10.00€</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
