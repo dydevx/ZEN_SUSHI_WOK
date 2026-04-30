@@ -118,6 +118,11 @@ body::before{
     z-index:10;
     transition:0.3s;
 }
+.btn{
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
 
 .btn:hover{
     transform:translateY(-50%) scale(1.1);
@@ -128,14 +133,22 @@ body::before{
 
 /* MOBILE */
 @media(max-width:768px){
+
     .card{
         min-width:180px;
         height:200px;
     }
 
     .btn{
-        display:none;
+        display:flex;
+        width:35px;
+        height:35px;
+        font-size:18px;
+        opacity:0.9;
     }
+
+    .prev{ left:5px; }
+    .next{ right:5px; }
 }
 </style>
 
