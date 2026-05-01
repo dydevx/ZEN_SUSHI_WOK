@@ -123,9 +123,7 @@
         .img-box {
             width: 100%;
             height: 250px;
-            background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+            background: #e0e0e0;
             overflow: hidden;
             border-radius: 0;
             position: relative;
@@ -140,7 +138,9 @@
             transition: 0.5s;
             display: block;
             background: #e0e0e0;
+            opacity: 0;
         }
+        .food-card img.is-loaded { opacity: 1; }
         .food-card:hover img { transform: scale(1.05); }
         
         /* LOADING ANIMATION */
@@ -721,47 +721,64 @@ const menuData = {
 };
 
 // 2. Hàm hiển thị món ăn
+const categoryFolders = {
+    "PLATEAU": "1.PLATEAU",
+    "SIGNATURES": "2. SIGNATURES",
+    "CALIFORNIA": "3. CALIFORNIA",
+    "MAKI": "4. MAKI",
+    "SPRING ROLL": "5. SPRING ROLL",
+    "FLOCON": "6. FLOCON",
+    "SAUMON ROLL": "7. SAUMON ROLL",
+    "SUSHI": "8. SUSHI",
+    "GUNKAN": "9. GUNKAN",
+    "TEMAKI": "10. TEMAKI",
+    "SASHIMI": "11. SASHIMI",
+    "CHIRASHI": "12. CHIRASHI",
+    "POKE BOWL": "13. POKE BOWL",
+    "CRUSTY BOWL": "14. CRUSTY BOWL",
+    "ZEN ENERGY BOWL": "15. ZEN ENERGY BOWL",
+    "ZEN WOK": "16. ZEN WOK",
+    "ACCOMPAGNEMENT": "17. ENTRE-ACCOMPAGNMENT",
+    "DESSERT": "18. DESSERT",
+    "BOISSON": "19. BOISSON"
+};
+
+function getMenuImageSources(folderName, fileName) {
+    const baseName = fileName.replace(/\.[^/.]+$/, '');
+
+    return {
+        optimized: encodeURI(`menu-optimized/${folderName}/${baseName}.jpg`),
+        original: encodeURI(`menu/${folderName}/${fileName}`)
+    };
+}
+
+function markImageLoaded(img, imgBox) {
+    img.classList.add('is-loaded');
+    imgBox.classList.remove('loading');
+}
+
 function renderFoods(category) {
     const display = document.getElementById('foodDisplay');
     display.innerHTML = ''; 
     title.innerText = category;
-    // Logic tên folder
-    let folderName = "";
-    if(category === "PLATEAU") folderName = "1.PLATEAU";
-    if(category === "SIGNATURES") folderName = "2. SIGNATURES";
-    if(category === "CALIFORNIA") folderName = "3. CALIFORNIA";
-    if(category === "MAKI") folderName = "4. MAKI";
-    if(category === "SPRING ROLL") folderName = "5. SPRING ROLL";
-    if(category === "FLOCON") folderName = "6. FLOCON";
-    if(category === "SAUMON ROLL") folderName = "7. SAUMON ROLL";
-    if(category === "SUSHI") folderName = "8. SUSHI";
-    if(category === "GUNKAN") folderName = "9. GUNKAN";
-    if(category === "TEMAKI") folderName = "10. TEMAKI";
-    if(category === "SASHIMI") folderName = "11. SASHIMI";
-    if(category === "CHIRASHI") folderName = "12. CHIRASHI";
-    if(category === "POKE BOWL") folderName = "13. POKE BOWL";
-    if(category === "CRUSTY BOWL") folderName = "14. CRUSTY BOWL";
-    if(category === "ZEN ENERGY BOWL") folderName = "15. ZEN ENERGY BOWL";
-    if(category === "ZEN WOK") folderName = "16. ZEN WOK";
-    if(category === "ACCOMPAGNEMENT") folderName = "17. ENTRE-ACCOMPAGNMENT";
-    if(category === "DESSERT") folderName = "18. DESSERT";
-    if(category === "BOISSON") folderName = "19. BOISSON";
+    const folderName = categoryFolders[category];
 
     const items = menuData[category];
 
-    if (items) {
-        items.forEach(item => {
+    if (items && folderName) {
+        const fragment = document.createDocumentFragment();
+
+        items.forEach((item, index) => {
             const card = document.createElement('div');
             card.className = 'food-card';
             
-            // Dùng encodeURI để trình duyệt hiểu được khoảng trắng và ký tự đặc biệt (như €)
-            const rawSrc = `menu/${folderName}/${item.fileName}`;
-            const encodedSrc = encodeURI(rawSrc);
+            // Use compressed menu images first, then fall back to the originals.
+            const sources = getMenuImageSources(folderName, item.fileName);
+            const isPriorityImage = index < 4;
             
-            // Sửa lại link placehold.co (thêm kích thước 400x300)
             card.innerHTML = `
                 <div class="img-box loading">
-                    <img loading="eager" decoding="async" width="220" height="250" src="${encodedSrc}" onerror="this.src='https://placehold.co/220x250?text=Loading'" alt="${item.name}">
+                    <img loading="${isPriorityImage ? 'eager' : 'lazy'}" fetchpriority="${isPriorityImage ? 'high' : 'low'}" decoding="async" width="700" height="700" src="${sources.optimized}" data-fallback-src="${sources.original}" alt="${item.name}">
                     <div class="badge">NOUVEAU</div>
                 </div>
                 <div class="food-info">
@@ -769,17 +786,37 @@ function renderFoods(category) {
                         <div class="food-name">${item.name}</div>
                         <div class="food-desc">${item.pieces || ''}</div>
                     </div>
-                    <div class="food-price">${item.price} €</div>
+                    <div class="food-price">${item.price} &euro;</div>
                 </div>
             `;
-            display.appendChild(card);
+            fragment.appendChild(card);
             
-            // Remove loading animation khi ảnh load xong
+            // Stop the skeleton as soon as the image is available.
             const imgElement = card.querySelector('img');
             const imgBox = card.querySelector('.img-box');
-            imgElement.onload = () => { imgBox.classList.remove('loading'); };
-            imgElement.onerror = () => { imgBox.classList.remove('loading'); };
+            imgElement.onload = () => { markImageLoaded(imgElement, imgBox); };
+            imgElement.onerror = () => {
+                const fallbackSrc = imgElement.dataset.fallbackSrc;
+
+                if (fallbackSrc) {
+                    imgElement.dataset.fallbackSrc = '';
+                    imgElement.src = fallbackSrc;
+                    return;
+                }
+
+                markImageLoaded(imgElement, imgBox);
+            };
+
+            if (imgElement.complete) {
+                if (imgElement.naturalWidth > 0) {
+                    markImageLoaded(imgElement, imgBox);
+                } else {
+                    imgElement.onerror();
+                }
+            }
         });
+
+        display.appendChild(fragment);
     }
 }
 
