@@ -25,42 +25,23 @@
             min-height: 100vh;
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .top-header {
+        .side-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            width: 100%;
-            padding: 15px;
-            border-bottom: 1px solid #f2f2f2;
-        }
-
-        .menu-btn {
-            display: block;
-            font-size: 32px;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.55);
+            color: #ffffff;
+            font-size: 28px;
             line-height: 1;
             cursor: pointer;
-        }
-
-        .logo {
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: #ffffff;
+            z-index: 1200;
         }
 
         .sidebar {
@@ -157,7 +138,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: calc(100vh - 65px);
+            min-height: 100vh;
             padding: 20px;
             text-align: center;
             color: #ffffff;
@@ -193,7 +174,7 @@
 
         @media (max-width: 600px) {
             .home-section {
-                min-height: calc(100vh - 63px);
+                min-height: 100vh;
             }
 
             .home-content h1 {
@@ -215,6 +196,8 @@
     </style>
 </head>
 <body>
+    <button class="side-toggle" type="button" onclick="toggleMenu()" aria-label="Ouvrir le menu">&#9776;</button>
+
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="close" onclick="toggleMenu()">&times;</div>
@@ -238,13 +221,6 @@
 
     <!-- OVERLAY -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-    <header>
-        <div class="top-header">
-            <div class="menu-btn" onclick="toggleMenu()">&#9776;</div>
-            <a href="menu.html" class="logo">ZEN SUSHI <span>WOK</span></a>
-        </div>
-    </header>
 
     <!-- HOME SECTION -->
     <div class="home-section" id="homeSection">
