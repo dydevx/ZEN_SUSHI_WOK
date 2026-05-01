@@ -297,7 +297,7 @@
     <div class="home-content">
         <h1>ZEN SUSHI WOK MENU </h1>
         
-        <button onclick="scrollToMenu()">Bienvenue au restaurant</button>
+        <button type="button" onclick="scrollToMenu()">Bienvenue au restaurant</button>
     </div>
 </div>
 
@@ -729,9 +729,11 @@ function renderFoods(category) {
 
     // SCROLL TO MENU
     function scrollToMenu() {
-        document.querySelector('.food-container').scrollIntoView({ behavior: 'smooth' });
         renderFoods(categories[0]);
         homeSection.classList.add('hidden');
+        requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        });
     }
 
     // SHOW HOME
