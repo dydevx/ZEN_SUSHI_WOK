@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZEN SUSHI WOK - Menu</title>
+    <title>ZEN SUSHI WOK </title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -15,6 +15,8 @@
         }
 
         body {
+            position: relative;
+            isolation: isolate;
             background-color: #000000;
             background-image: url("background.jpg");
             background-size: cover;
@@ -25,6 +27,25 @@
             overflow-x: hidden;
             max-width: 100vw;
             min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .background-video {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: -2;
         }
 
         .side-toggle {
@@ -198,6 +219,11 @@
     </style>
 </head>
 <body>
+    <video class="background-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="video.mpe" type="video/mpeg">
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
     <button class="side-toggle" type="button" onclick="toggleMenu()" aria-label="Ouvrir le menu">&#9776;</button>
 
     <!-- SIDEBAR -->
@@ -227,7 +253,7 @@
     <!-- HOME SECTION -->
     <div class="home-section" id="homeSection">
         <div class="home-content">
-            <h1>ZEN SUSHI WOK</h1>
+            <!-- <h1>ZEN SUSHI WOK</h1> -->
             <p>D&eacute;couvrez notre s&eacute;lection de sushi et plats asiatiques</p>
         </div>
     </div>
