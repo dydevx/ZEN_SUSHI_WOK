@@ -1822,38 +1822,6 @@ window.ZEN_MENU_DATA = {
     ],
     "BOISSON": [
         {
-            "name": "Café au Lait Glacé",
-            "price": "4,5",
-            "pieces": "",
-            "composition": "Café au Lait Glacé",
-            "description": "Café glacé maison, adouci au lait, aux notes douces et onctueuses.",
-            "fileName": "boisson1.png"
-        },
-        {
-            "name": "Thé Glacé à l’Ananas",
-            "price": "4,5",
-            "pieces": "",
-            "composition": "Thé Glacé à l’Ananas",
-            "description": "Thé glacé maison à l’ananas, aux saveurs délicates et légèrement exotiques.",
-            "fileName": "boisson2.png"
-        },
-        {
-            "name": "Thé Glacé aux Litchis",
-            "price": "4,5",
-            "pieces": "",
-            "composition": "Thé Glacé aux Litchis",
-            "description": "Thé glacé maison aux litchis, au goût subtil et délicatement parfumé.",
-            "fileName": "boisson3.png"
-        },
-        {
-            "name": "Thé Glacé Pêche",
-            "price": "4,5",
-            "pieces": "",
-            "composition": "Thé Glacé Pêche",
-            "description": "Thé glacé maison à la pêche, aux notes douces et rafraîchissantes.",
-            "fileName": "boisson4.png"
-        },
-        {
             "name": "Evian",
             "price": "3",
             "pieces": "",
@@ -1940,14 +1908,6 @@ window.ZEN_MENU_DATA = {
             "composition": "Mogu mogu",
             "description": "Une sélection de boissons fraîches, dont des créations maison aux saveurs délicates.",
             "fileName": "boisson15.png"
-        },
-        {
-            "name": "caprisun",
-            "price": "2",
-            "pieces": "",
-            "composition": "Caprisun",
-            "description": "Une sélection de boissons fraîches, dont des créations maison aux saveurs délicates.",
-            "fileName": "boisson16.png"
         },
         {
             "name": "Bière Asahi",
