@@ -397,6 +397,10 @@ function showHome() {
         item.setAttribute("aria-expanded", "false");
     });
     hideGroupSubnav();
+    if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
 }
 
 document.querySelectorAll("[data-close-modal]").forEach((element) => {
