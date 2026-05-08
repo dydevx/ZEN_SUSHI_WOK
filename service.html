@@ -35,10 +35,36 @@ body{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:24px;
     padding:28px 60px;
 }
 
+.home-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    gap:8px;
+    min-height:42px;
+    padding:0 14px;
+    border-radius:8px;
+    background:#fff;
+    color:#111;
+    font-size:12px;
+    font-weight:800;
+    text-decoration:none;
+    text-transform:uppercase;
+    transition:0.25s;
+}
+
+.home-button:hover{
+    background:#d83a2e;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
 .social-title{
+    flex:1;
     font-family:'Bebas Neue', sans-serif;
     font-size:clamp(22px,3vw,36px);
     letter-spacing:2px;
@@ -138,6 +164,10 @@ body{
         padding:20px;
     }
 
+    .home-button{
+        min-height:40px;
+    }
+
     .marquee-img{
         width:200px;
         height:220px;
@@ -156,6 +186,10 @@ body{
 <section class="social-section">
 
 <div class="social-top">
+    <a class="home-button" href="index.html">
+        <i class="fa-solid fa-house"></i>
+        Accueil
+    </a>
     <div class="social-title">
         RETROUVER ZEN SUSHI WOK<br>
         SUR LES RÉSEAUX SOCIAUX
