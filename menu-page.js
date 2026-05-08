@@ -24,10 +24,16 @@ const groupSubnav = document.createElement("div");
 groupSubnav.className = "group-subnav";
 groupSubnav.hidden = true;
 nav.insertAdjacentElement("afterend", groupSubnav);
+const selectedSubnav = document.createElement("div");
+selectedSubnav.className = "selected-subnav";
+selectedSubnav.hidden = true;
+groupSubnav.insertAdjacentElement("afterend", selectedSubnav);
+const mobileMenuQuery = window.matchMedia("(max-width: 760px)");
 
 let activeDish = null;
 let toastTimer = null;
 let cartCount = getStoredCartCount();
+const selectedGroupItems = new Map();
 
 updateCartCount();
 
@@ -317,13 +323,27 @@ function makeTitleLabel(group, groupItem) {
     return group.items.length > 1 ? `${group.label} - ${groupItem.label}` : group.label;
 }
 
-function selectCategory(group, groupItem, groupButton) {
+function updateSelectedSubnav(group, groupItem) {
+    selectedSubnav.textContent = makeTitleLabel(group, groupItem);
+    selectedSubnav.hidden = false;
+}
+
+function selectCategory(group, groupItem, groupButton, collapseSubnav = false) {
     setActiveGroup(groupButton);
+    selectedGroupItems.set(group.label, groupItem);
     if (group.items.length <= 1) {
+        hideGroupSubnav();
+    } else if (collapseSubnav) {
+        groupButton.setAttribute("aria-expanded", "false");
         hideGroupSubnav();
     } else {
         groupButton.setAttribute("aria-expanded", "true");
         renderGroupSubnav(group, groupButton, getGroupItemKey(groupItem));
+    }
+    if (group.items.length <= 1 || collapseSubnav) {
+        updateSelectedSubnav(group, groupItem);
+    } else {
+        selectedSubnav.hidden = true;
     }
     homeSection.classList.add("hidden");
     renderFoods(groupItem.category, makeTitleLabel(group, groupItem), groupItem.filter);
@@ -340,7 +360,7 @@ function renderGroupSubnav(group, groupButton, activeKey = getGroupItemKey(group
         item.className = "subnav-item";
         item.dataset.key = getGroupItemKey(groupItem);
         item.textContent = groupItem.label;
-        item.addEventListener("click", () => selectCategory(group, groupItem, groupButton));
+        item.addEventListener("click", () => selectCategory(group, groupItem, groupButton, mobileMenuQuery.matches));
         fragment.appendChild(item);
     });
 
@@ -360,7 +380,9 @@ function renderGroupNav() {
             event.preventDefault();
             const activeItem = groupSubnav.querySelector(".subnav-item.active");
             const currentKey = activeItem ? activeItem.dataset.key : "";
-            const selectedItem = group.items.find((groupItem) => getGroupItemKey(groupItem) === currentKey) || group.items[0];
+            const selectedItem = selectedGroupItems.get(group.label)
+                || group.items.find((groupItem) => getGroupItemKey(groupItem) === currentKey)
+                || group.items[0];
             selectCategory(group, selectedItem, item);
         });
         nav.appendChild(item);
@@ -397,6 +419,7 @@ function showHome() {
         item.setAttribute("aria-expanded", "false");
     });
     hideGroupSubnav();
+    selectedSubnav.hidden = true;
     if (window.location.hash) {
         window.history.replaceState(null, "", window.location.pathname + window.location.search);
     }

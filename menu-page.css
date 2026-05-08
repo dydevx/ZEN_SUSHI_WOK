@@ -221,6 +221,23 @@ body.modal-open {
     display: none;
 }
 
+.selected-subnav {
+    display: none;
+    margin-top: 8px;
+    padding: 9px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.selected-subnav[hidden] {
+    display: none !important;
+}
+
 .subnav-item {
     display: inline-flex;
     align-items: center;
@@ -733,6 +750,13 @@ body.modal-open {
         min-height: 44px;
         padding: 12px 13px;
         text-align: left;
+    }
+
+    .selected-subnav {
+        display: block;
+        margin-top: 6px;
+        padding: 9px 10px;
+        font-size: 11px;
     }
 
     .home-section {
